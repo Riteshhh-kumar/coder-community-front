@@ -1,100 +1,123 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom"; // Import Link for navigation
+import backgroundImg from "../assets/background.jpeg";
+import api from "../api/axiosConfig";
 
-const Login = () => {
-  const [usernameOrEmail, setUsernameOrEmail] = useState("");
-  const [password, setPassword] = useState("");
+const LoginPage = ({setIsLoggedIn,setUser}) => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  });
 
-  const handleLogin = () => {
-    // Add login logic here
-    console.log("Logging in with:", usernameOrEmail, password);
+  const handleChange = (e) => {
+    const { name, value, checked, type } = e.target;
+    console.log(formData);
+    const newValue = type === "checkbox" ? checked : value;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: newValue,
+    }));
+  };
+
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      var res = await api.post("user/login", {
+        email: formData.email,
+        username: formData.email,
+        password: formData.password,
+      });
+      if (res.data == "") {
+        console.log("AJI KHAALI HAI");
+      } else {
+        setIsLoggedIn(true);
+        setUser(res.data);
+        
+      }
+      console.log(res.data);
+    } catch (error) {
+      console.log("RAITA FAIL GAYA : ", error);
+    }
   };
 
   return (
-    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-      <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          class="mx-auto h-10 w-auto"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-          alt="Your Company"
-        />
-        <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in to your account
-        </h2>
-      </div>
-
-      <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form class="space-y-6" action="#" method="POST">
-          <div>
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover"
+      style={{ backgroundImage: `url(${backgroundImg})` }}
+    >
+      <div className="bg-white shadow-md rounded-lg px-8 py-8 sm:p-12 max-w-md w-full">
+        <h1 className="text-3xl font-bold text-center mb-8">Login</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-6">
             <label
-              for="email"
-              class="block text-sm font-medium leading-6 text-gray-900"
+              htmlFor="text"
+              className="block text-gray-700 text-sm font-bold mb-2"
             >
-              Email address
+              Email Address
             </label>
-            <div class="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autocomplete="email"
-                required
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            <input
+              type="text"
+              name="email"
+              id="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Enter your email address"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition duration-300 ease-in-out hover:bg-gray-100"
+            />
           </div>
-
-          <div>
-            <div class="flex items-center justify-between">
-              <label
-                for="password"
-                class="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Password
-              </label>
-              <div class="text-sm">
-                <a
-                  href="#"
-                  class="font-semibold text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot password?
-                </a>
-              </div>
-            </div>
-            <div class="mt-2">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autocomplete="current-password"
-                required
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+          <div className="mb-6">
+            <label
+              htmlFor="password"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Enter your password"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition duration-300 ease-in-out hover:bg-gray-100"
+            />
           </div>
-
-          <div>
+          <div className="mb-6 flex items-center">
+            <input
+              type="checkbox"
+              name="rememberMe"
+              id="rememberMe"
+              checked={formData.rememberMe}
+              onChange={handleChange}
+              className="mr-2 leading-tight"
+            />
+            <label htmlFor="rememberMe" className="text-gray-700 text-sm">
+              Remember me
+            </label>
+          </div>
+          <div className="flex justify-center">
             <button
               type="submit"
-              class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform hover:scale-105"
             >
-              Sign in
+              Login
             </button>
           </div>
         </form>
 
-        <p class="mt-10 text-center text-sm text-gray-500">
-          Not a member?
-          <a
-            href="/register"
-            class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-          >
-            Register
-          </a>
-        </p>
+        {/* New to Coder Community? Create Account link */}
+        <div className="text-center mt-4">
+          <p className="text-sm text-gray-600">New to Coder Community?</p>
+          <Link to="/register" className="text-blue-500 hover:underline">
+            Create Account
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default LoginPage;
