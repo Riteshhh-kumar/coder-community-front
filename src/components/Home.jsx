@@ -17,7 +17,7 @@ const Home = () => {
               style={{ height: "500px", width: "20000px", margin: "30px" }}
             />
           </header>
-          <PostTemplate/>
+          
 
           
         </div>

@@ -36,7 +36,6 @@ function App() {
           ></Route>
           <Route path="/register" element={isLoggedIn?<Home/>:<Registration setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/" element={<Registration />} />
-          <Route path="/Home" element={<Home />} />
         </Routes>
       </div>
     </Router>
