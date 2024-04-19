@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import PostTemplate from "./PostTemplate";
 
 const Home = () => {
   return (
@@ -16,6 +17,7 @@ const Home = () => {
               style={{ height: "500px", width: "20000px", margin: "30px" }}
             />
           </header>
+          <PostTemplate/>
 
           
         </div>
