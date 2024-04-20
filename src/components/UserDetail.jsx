@@ -4,17 +4,17 @@ function UserDetail({isLoggedIn,user}) {
   if (!isLoggedIn) {
     return (
       <>
-        <li>
-          <Link to="/login" className="hover:underline">
+        
+          <Link to="/login" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
             Login
           </Link>
-        </li>
-        <li>
-          <Link to="/register" className="hover:underline">
+        
+        
+          <Link to="/register" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
             Register
           </Link>
-        </li>
-        <li></li>
+        
+    
       </>
     );
   } else
