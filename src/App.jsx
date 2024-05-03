@@ -12,6 +12,7 @@ import Posts from "./components/Posts";
 import Login from "./components/Login";
 import Registration from "./components/Registration";
 import { useState } from "react";
+import ViewCommunity from "./components/ViewCommunity";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,7 +27,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Communities />} />
-          <Route path="/communities" element={<Communities />} />
+          <Route path="/communities" element={<Communities user={user} />} />
+          <Route path="/communities/community/:communityname" element={<ViewCommunity user={user} />} />
           <Route path="/posts" element={<Posts />} />
           <Route
             path="/login"
@@ -34,7 +36,7 @@ function App() {
               isLoggedIn ? <Home /> : <Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />
             }
           ></Route>
-          <Route path="/register" element={isLoggedIn?<Home/>:<Registration setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/register" element={isLoggedIn?<Home/>:<Registration setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
           <Route path="/" element={<Registration />} />
         </Routes>
       </div>

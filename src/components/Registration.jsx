@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import backgroundImg from "../assets/background.jpeg";
 import api from "../api/axiosConfig";
 
-const RegistrationPage = (setIsLoggedIn) => {
+const RegistrationPage = ({setIsLoggedIn,setUser}) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -34,7 +34,8 @@ const RegistrationPage = (setIsLoggedIn) => {
       if (res.data == "") {
         console.log("AJI KHAALI HAI");
       } else {
-        setIsLoggedIn.setIsLoggedIn(true);
+        setIsLoggedIn(true);
+        setUser(res.data)
       }
       console.log(res.data);
     } catch (error) {
@@ -61,6 +62,7 @@ const RegistrationPage = (setIsLoggedIn) => {
               Name
             </label>
             <input
+              required
               type="text"
               name="name"
               id="name"
@@ -77,6 +79,7 @@ const RegistrationPage = (setIsLoggedIn) => {
               Username
             </label>
             <input
+              required
               type="text"
               name="username"
               id="username"
@@ -94,6 +97,7 @@ const RegistrationPage = (setIsLoggedIn) => {
               Email Address
             </label>
             <input
+              required
               type="email"
               name="email"
               id="email"
@@ -111,6 +115,7 @@ const RegistrationPage = (setIsLoggedIn) => {
               Password
             </label>
             <input
+              required
               type="password"
               name="password"
               id="password"
@@ -126,6 +131,7 @@ const RegistrationPage = (setIsLoggedIn) => {
               Phone
             </label>
             <input
+              required
               type="text"
               name="phone"
               id="phone"
@@ -141,6 +147,7 @@ const RegistrationPage = (setIsLoggedIn) => {
               Bio
             </label>
             <input
+              required
               type="text"
               name="bio"
               id="bio"

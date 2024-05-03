@@ -21,7 +21,7 @@ function UserDetail({isLoggedIn,user}) {
     return (
       <>
         <li>
-          Welcome, { user.username}
+          Welcome, { user}
         </li>
         <li>
         <Link to="/communities" className="hover:underline">

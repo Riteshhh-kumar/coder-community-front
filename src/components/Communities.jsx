@@ -1,38 +1,91 @@
 // src/components/Sidebar.js
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
+import api from "../api/axiosConfig";
+import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 
-const communities = [
-  { name: "JavaScript Community", members: 0, logo: "javalogo.jpeg" },
-  { name: "Python Community", members: 0, logo: "pythonlogo.jpeg" },
-  { name: "Java Community", members: 0, logo: "javalogo.jpeg" },
-  { name: "C/CPP Community", members: 0, logo: "clogo.jpeg" },
-  { name: " PHP Community", members: 0, logo: "PHPlogo.svg.png" },
-  // Add more communities as needed
-];
 
-const CommunityCard = ({ name, members, logo }) => (
+var username
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const communityname = e.target.value;
+
+  try {
+    var res = await api.post("community/join", { username: username , communityname: communityname  })
+    console.log(res.data)
+  } catch (error) {
+    
+  }
+alert("You have successfully joined the community");
+}
+
+const CommunityCard = ({ community }) => (
   <div className="bg-white p-4 ml-16 w-64 mr-4 mb-10 rounded-lg shadow-md">
-    <img src={logo} alt={`${name} Logo`} className="w-12 h-12 mx-auto mb-4" />
-    <h2 className="text-xl font-bold">{name}</h2>
-    <p className="text-gray-500">{members} Members</p>
-    <button className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-blue-600 transition duration-300">
-      Join
-    </button>
+    <img src={community.logo} alt={`${community.name} Logo`} className="w-12 h-12 mx-auto mb-4" />
+    <h2 className="text-xl font-bold">{community.name}</h2>
+    {/* <p className="text-gray-500">{members} Members</p> */}
+    <Join community={community} />
   </div>
 );
 
 
-const Communities = () => {
+function Join({ community }) {
+  if(!community.members.includes(username))
+  return (
+      <>
+      <button onClick={community.handleSubmit} value={community.name} className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-blue-600 transition duration-300">
+      Join
+    </button></>
+    )
+  else {
+    var name= `community/${community.name}`
+    return(
+      <>
+      <Link to={{pathname:name,state:{community:community}}}  className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-blue-600 transition duration-300">
+      View
+    </Link></>
+    )
+  }
+}
+
+function viewCommunity(community)  {
+  const navigate = useNavigate()
+  navigate(`/community/${community.name}`,community={community})
+
+  
+}
+
+
+
+const Communities = ({ user }) => {
+  const getPosts = async () => {
+    try {
+      var res = await api.get("/community/getall");
+      setCommunities(res.data);
+    }
+    catch (err) {
+      console.log("Error")
+    }
+  }
+
+  
+  username = user
+  const [communities,setCommunities]= useState([])
+  useEffect(() => {
+    getPosts()
+  },[]);
+  
   return (
     <>
       <div className="flex">
       <Sidebar />
       <div className="flex min-h-screen flex-wrap">
             {communities.map((community) => (
-              <CommunityCard key={community.name} {...community} />
+              <CommunityCard key={community.name} community={community} />
             ))}
           </div>
       </div>
