@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import UserDetail from "./UserDetail";
 
-const Header = ({ isLoggedIn, user }) => {
+const Header = ({setcookie, isLoggedIn, user ,setUser}) => {
   return (
     <header>
       <nav className="bg-gray-800">
@@ -14,8 +14,8 @@ const Header = ({ isLoggedIn, user }) => {
             <div className="flex flex-2 items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex space-x-4 flex-shrink-0 items-center">
                 <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                  className="h-12 w-auto"
+                  src="CC_Logo.png"
                   alt="Your Company"
                 />
               
@@ -41,7 +41,7 @@ const Header = ({ isLoggedIn, user }) => {
               <div className="relative ml-3 text-white">
                 <div>
                   <ul className="flex space-x-4">
-                    <UserDetail isLoggedIn={isLoggedIn} user={user} />
+                    <UserDetail setcookie={setcookie} isLoggedIn={isLoggedIn} user={user} setUser={setUser} />
                   </ul>
                 </div>
               </div>

@@ -14,12 +14,12 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   const communityname = e.target.value;
 
-  try {
+  if(username!=null){try {
     var res = await api.post("community/join", { username: username , communityname: communityname  })
     console.log(res.data)
   } catch (error) {
     
-  }
+  }}
 alert("You have successfully joined the community");
 }
 
@@ -37,17 +37,20 @@ function Join({ community }) {
   if(!community.members.includes(username))
   return (
       <>
-      <button onClick={community.handleSubmit} value={community.name} className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-blue-600 transition duration-300">
+      <button onClick={handleSubmit} value={community.name} className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-blue-600 transition duration-300">
       Join
     </button></>
     )
   else {
-    var name= `community/${community.name}`
+    var name= `/${community.name}`
     return(
       <>
-      <Link to={{pathname:name,state:{community:community}}}  className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-blue-600 transition duration-300">
+        <div className='my-4'>
+        <Link to={{pathname:name,state:{community:community}}}  className="bg-blue-500 text-white  px-4 py-2 m rounded-md hover:bg-blue-600 transition duration-300">
       View
-    </Link></>
+        </Link>
+      </div>
+      </>
     )
   }
 }

@@ -1,6 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-function UserDetail({isLoggedIn,user}) {
+function UserDetail({ setcookie,isLoggedIn, user,setUser }) {
+  const logout = () => {
+    setcookie('user','')
+    setcookie('isLoggedIn', false)
+    setUser(null)
+  }
   if (!isLoggedIn) {
     return (
       <>
@@ -28,6 +33,10 @@ function UserDetail({isLoggedIn,user}) {
           Communities
         </Link>
         </li>
+        <li>
+          <button onClick={logout} >Logout</button>
+        </li>
+        
       </>
     );
 }

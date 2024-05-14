@@ -11,34 +11,48 @@ import Communities from "./components/Communities";
 import Posts from "./components/Posts";
 import Login from "./components/Login";
 import Registration from "./components/Registration";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import ViewCommunity from "./components/ViewCommunity";
+import Footer from "./components/Footer";
+import { useCookies } from "react-cookie";
 
 function App() {
+  
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [cookies,setcookie]=useCookies(['user','isLoggedIn'])
 
   const [user, setUser] = useState(null)
 
+  useEffect(() => {
+    setUser(cookies.user)
+    setIsLoggedIn(cookies.isLoggedIn)
+  }, [setcookie]);
+  
+
+
   return (
     <Router>
-      <div className="flex flex-col min-h-screen">
-        <Header  isLoggedIn={ isLoggedIn} user={user} />
+      <div className="flex flex-col  max-h-screen">
 
+        <Header setcookie={setcookie} isLoggedIn={ isLoggedIn} user={user} setUser={setUser} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Communities />} />
-          <Route path="/communities" element={<Communities user={user} />} />
-          <Route path="/communities/community/:communityname" element={<ViewCommunity user={user} />} />
-          <Route path="/posts" element={<Posts />} />
+          <Route path="/communities"
+            element={
+              isLoggedIn ? <Communities user={user} /> : <Login setcookie={setcookie} setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
+          <Route path="/:communityname" element={<ViewCommunity user={cookies.user} />} />
+          <Route path="/posts" element={<Posts username={user}/>} />
           <Route
             path="/login"
             element={
-              isLoggedIn ? <Home /> : <Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />
+              isLoggedIn ? <Home /> : <Login setcookie={setcookie} setIsLoggedIn={setIsLoggedIn} setUser={setUser} />
             }
           ></Route>
           <Route path="/register" element={isLoggedIn?<Home/>:<Registration setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
           <Route path="/" element={<Registration />} />
         </Routes>
+        <Footer/>
       </div>
     </Router>
   );

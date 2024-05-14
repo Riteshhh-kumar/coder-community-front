@@ -3,7 +3,7 @@ import { Link, redirect, useNavigate } from "react-router-dom"; // Import Link f
 import backgroundImg from "../assets/background.jpeg";
 import api from "../api/axiosConfig";
 
-const LoginPage = ({setIsLoggedIn,setUser}) => {
+const LoginPage = ({setcookie,setIsLoggedIn,setUser}) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -33,6 +33,8 @@ const LoginPage = ({setIsLoggedIn,setUser}) => {
       if (res.data == "") {
         console.log("AJI KHAALI HAI");
       } else {
+        setcookie('user',res.data)
+        setcookie('isLoggedIn',true)
         setIsLoggedIn(true);
         setUser(res.data);
         
