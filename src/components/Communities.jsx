@@ -6,8 +6,6 @@ import api from "../api/axiosConfig";
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
-
-
 var username
 
 const handleSubmit = async (e) => {
@@ -22,7 +20,6 @@ const handleSubmit = async (e) => {
   }}
 alert("You have successfully joined the community");
 }
-
 const CommunityCard = ({ community }) => (
   <div className="bg-white p-4 ml-16 w-64 mr-4 mb-10 rounded-lg shadow-md">
     <img src={community.logo} alt={`${community.name} Logo`} className="w-12 h-12 mx-auto mb-4" />
@@ -31,8 +28,6 @@ const CommunityCard = ({ community }) => (
     <Join community={community} />
   </div>
 );
-
-
 function Join({ community }) {
   if(!community.members.includes(username))
   return (
@@ -54,16 +49,6 @@ function Join({ community }) {
     )
   }
 }
-
-function viewCommunity(community)  {
-  const navigate = useNavigate()
-  navigate(`/community/${community.name}`,community={community})
-
-  
-}
-
-
-
 const Communities = ({ user }) => {
   const getPosts = async () => {
     try {
@@ -74,8 +59,6 @@ const Communities = ({ user }) => {
       console.log("Error")
     }
   }
-
-  
   username = user
   const [communities,setCommunities]= useState([])
   useEffect(() => {
@@ -95,5 +78,4 @@ const Communities = ({ user }) => {
     </>
   );
 };
-
 export default Communities;
